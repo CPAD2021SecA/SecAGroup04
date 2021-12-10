@@ -1,6 +1,16 @@
-# SecAGroup04<br>
+# cpad_quiz_app
 
-Anand T R (2020SP93044) | Email: 2020sp93044@wilp.bits-pilani.ac.in | Github ID - anand2398<br>
-Ajit Sharma S (2020SP93054) | Email:2020sp93054@wilp.bits-pilani.ac.in | Github ID- Ajitsharmas<br>
-Abheesht Srivastava (2020SP93058) | Email: 2020sp93058@wilp.bits-pilani.ac.in | Github ID - abhee99<br>
-Deviprasad D Mahale (2020SP93088) | Email: 2020sp93088@wilp.bits-pilani.ac.in | Github ID - deviprasad2611<br>
+A new Flutter project.
+
+## Getting Started
+
+This project is a starting point for a Flutter application.
+
+A few resources to get you started if this is your first Flutter project:
+
+- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+
+For help getting started with Flutter, view our
+[online documentation](https://flutter.dev/docs), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.

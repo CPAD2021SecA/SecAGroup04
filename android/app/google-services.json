@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "24737869160",
+    "project_id": "cpadquizapp",
+    "storage_bucket": "cpadquizapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:24737869160:android:e001941d958014c42a3add",
+        "android_client_info": {
+          "package_name": "com.example.cpad_quiz_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "24737869160-pbdmg9m92ogp4not93ee9ue64882knj2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cpad_quiz_app",
+            "certificate_hash": "60497ac5bcb2a9ec5837a38fa262e0e1556a6b4b"
+          }
+        },
+        {
+          "client_id": "24737869160-rjg3ig4se2aj9rd9jiaf6t8td9cboom4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHxnmEYhzu6u73Gqhc84JiWt_7vAl0xw0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "24737869160-rjg3ig4se2aj9rd9jiaf6t8td9cboom4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
