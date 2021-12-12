@@ -3,6 +3,9 @@ import 'package:cpad_quiz_app/screens/registration_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
+// import 'package:cpad_quiz_app/controllers/login_controller.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -20,7 +23,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController passwordController = new TextEditingController();
 
   // firebase
+
   final _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   // string for displaying the error Message
   String? errorMessage;
@@ -127,7 +132,43 @@ class _LoginScreenState extends State<LoginScreen> {
                     passwordField,
                     SizedBox(height: 35),
                     loginButton,
-                    SizedBox(height: 15),
+                    SizedBox(height: 5),
+                    InkWell(
+                      child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 50.0,
+                          margin: EdgeInsets.only(top: 25),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.black),
+                          child: Center(
+                              child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Container(
+                                height: 30.0,
+                                width: 22.0,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage('assets/google.png'),
+                                      fit: BoxFit.cover),
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                              Text(
+                                'Sign in with Google',
+                                style: TextStyle(
+                                    fontSize: 22.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                            ],
+                          ))),
+                      onTap: () {
+                        signInwithGoogle();
+                      },
+                    ),
+                    SizedBox(height: 35),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -166,10 +207,10 @@ class _LoginScreenState extends State<LoginScreen> {
         await _auth
             .signInWithEmailAndPassword(email: email, password: password)
             .then((uid) => {
-          Fluttertoast.showToast(msg: "Login Successful"),
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => HomeScreen())),
-        });
+                  Fluttertoast.showToast(msg: "Login Successful"),
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => HomeScreen())),
+                });
       } on FirebaseAuthException catch (error) {
         switch (error.code) {
           case "invalid-email":
@@ -199,4 +240,40 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     }
   }
+  Future<String?> signInwithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleSignInAccount =
+      await _googleSignIn.signIn();
+      final GoogleSignInAuthentication googleSignInAuthentication =
+      await googleSignInAccount!.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+
+
+      UserCredential result=await _auth.signInWithCredential(credential);
+     //final User? userresult=(await _auth.signInWithCredential(credential)).user;
+      print(result.user?.displayName);
+      String? name=result.user?.displayName;
+      String? email=result.user?.email;
+      // result.then((uid) => {
+      //   Fluttertoast.showToast(msg: "Login Successful"),
+      //   Navigator.of(context).pushReplacement(
+      //       MaterialPageRoute(builder: (context) => HomeScreen())),
+      // });
+      await _auth.signInWithCredential(credential).then((uid) => {
+        Fluttertoast.showToast(msg: "Login Successful"),
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomeScreen(firstname:name,email:email))),
+      });
+
+    } on FirebaseAuthException catch (e) {
+      print(e.message);
+      throw e;
+    }
+  }
+
+
+
 }
