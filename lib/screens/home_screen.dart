@@ -2,12 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cpad_quiz_app/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
-
+  const HomeScreen({ Key? key, this.firstname, this.email }) : super(key: key);
+  final String? firstname;
+  final String? email;
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -15,18 +17,28 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   @override
   void initState() {
     super.initState();
-    FirebaseFirestore.instance
-        .collection("users")
-        .doc(user!.uid)
-        .get()
-        .then((value) {
-      this.loggedInUser = UserModel.fromMap(value.data());
-      setState(() {});
-    });
+    if (widget.firstname==null){
+      FirebaseFirestore.instance
+          .collection("users")
+          .doc(user!.uid)
+          .get()
+          .then((value) {
+        this.loggedInUser = UserModel.fromMap(value.data());
+        setState(() {});
+      });
+    }
+    if(this.loggedInUser.firstName==null){
+      this.loggedInUser.firstName=widget.firstname;
+      this.loggedInUser.secondName="";
+    }
+    if(this.loggedInUser.email==null){
+      this.loggedInUser.email=widget.email;
+    }
   }
 
   @override
@@ -81,8 +93,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // the logout function
   Future<void> logout(BuildContext context) async {
+
     await FirebaseAuth.instance.signOut();
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => LoginScreen()));
+    if(widget.firstname!=null){
+      await _googleSignIn.signOut();
+    }
   }
+
 }
