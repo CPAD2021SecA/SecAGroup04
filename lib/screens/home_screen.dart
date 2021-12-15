@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cpad_quiz_app/model/user_model.dart';
+import 'package:cpad_quiz_app/screens/take_quiz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import 'add_ques_screen.dart';
+
 import 'login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -88,31 +89,31 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: 10,
               ),
-              TextFormField(
-                  autofocus: false,
-                  controller: quizidController,
-                  obscureText: true,
-                  validator: (value) {
-                    RegExp regex = new RegExp(r'^.{6,}$');
-                    if (value!.isEmpty) {
-                      return ("Password is required for login");
-                    }
-                    if (!regex.hasMatch(value)) {
-                      return ("Enter Valid Password(Min. 6 Character)");
-                    }
-                  },
-                  onSaved: (value) {
-                    quizidController.text = value!;
-                  },
-                  textInputAction: TextInputAction.done,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.quiz),
-                    contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                    hintText: "Enter Quiz ID",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  )),
+              // TextFormField(
+              //     autofocus: false,
+              //     controller: quizidController,
+              //     obscureText: true,
+              //     validator: (value) {
+              //       RegExp regex = new RegExp(r'^.{6,}$');
+              //       if (value!.isEmpty) {
+              //         return ("Password is required for login");
+              //       }
+              //       if (!regex.hasMatch(value)) {
+              //         return ("Enter Valid Password(Min. 6 Character)");
+              //       }
+              //     },
+              //     onSaved: (value) {
+              //       quizidController.text = value!;
+              //     },
+              //     textInputAction: TextInputAction.done,
+              //     decoration: InputDecoration(
+              //       prefixIcon: Icon(Icons.quiz),
+              //       contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+              //       hintText: "Enter Quiz ID",
+              //       border: OutlineInputBorder(
+              //         borderRadius: BorderRadius.circular(10),
+              //       ),
+              //     )),
               SizedBox(
                 height: 10,
               ),
@@ -124,8 +125,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
                     minWidth: MediaQuery.of(context).size.width,
                     onPressed: () {
-
-
+                      if(widget.firstname==null||widget.email==null)
+                      {
+                        Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (context) => QuizzScreen()));
+                      }
+                      else{
+                        Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (context) => QuizzScreen(firstname: widget.firstname,email:widget.email)));
+                      }
+                      // Navigator.of(context).pushReplacement(
+                      //     MaterialPageRoute(builder: (context) => QuizzScreen()));
                     },
                     child: Text(
                       "Take Quiz",
@@ -144,29 +154,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 elevation: 5,
                 borderRadius: BorderRadius.circular(30),
                 color: Colors.redAccent,
-                child: MaterialButton(
-                    padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                    minWidth: MediaQuery.of(context).size.width,
-                    onPressed: () {
-                      if(widget.firstname==null||widget.email==null)
-                        {
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(builder: (context) => AddQuestionScreen()));
-                        }
-                      else{
-                        Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (context) => AddQuestionScreen(firstname: widget.firstname,email:widget.email)));
-                      }
-
-                    },
-                    child: Text(
-                      "Create New Quiz",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                    )),
+                // child: MaterialButton(
+                //     padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                //     minWidth: MediaQuery.of(context).size.width,
+                //     onPressed: () {},
+                //     child: Text(
+                //       "Create New Quiz",
+                //       textAlign: TextAlign.center,
+                //       style: TextStyle(
+                //           fontSize: 20,
+                //           color: Colors.white,
+                //           fontWeight: FontWeight.bold),
+                //     )),
               ),
             ],
           ),
